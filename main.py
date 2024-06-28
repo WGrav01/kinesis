@@ -34,12 +34,12 @@ def server(tunnel_host, tunnel_port):
     def location(sid, data):
         la, lo = list(map(lambda x: float(x), data.split(',')))
         clients[sid][1].simulate_location(la, lo)
-
-    @sio.event
-    def disconnect(sid):
-        clients[sid][1].stop()
-        clients[sid][0].service.close()
-        clients.pop(sid)
+# Uncomment the following to allow device to disconnect gracefully (returning location back to normal without restart)
+#    @sio.event
+#    def disconnect(sid):
+#        clients[sid][1].stop()
+#        clients[sid][0].service.close()
+#        clients.pop(sid)
 
     s = eventlet.listen(('localhost', 3000))
     [ip, port] = s.getsockname()
